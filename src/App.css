@@ -7,9 +7,10 @@ html,
 body {
   font-family: "Jost", sans-serif;
 }
-.about-wrapper {
-  background-image: url("../public/assets/images/about-bg-section.png");
-}
+.site-wrapper {
+  background-image: linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25));
+}l
+
 /* Wave hand animation */
 .wave {
   animation-name: wave-animation; /* Refers to the name of your @keyframes element below */

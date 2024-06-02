@@ -16,9 +16,15 @@ import Button from "@mui/material/Button";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import CloseIcon from "@mui/icons-material/Close";
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 
 const drawerWidth = 240;
-const navItems = ["home", "about", "project", "contact"];
+type NavItem = "home" | "about" | "project" | "contact";
+
+const navItems: NavItem[] = ["home", "about", "project", "contact"];
 
 interface Props {
   window?: () => Window;
@@ -27,15 +33,29 @@ interface Props {
 const Header: React.FC<Props> = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [activeItem, setActiveItem] = React.useState("home");
+  const [activeItem, setActiveItem] = React.useState<NavItem>("home");
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  // drawer on mobile
+  const getIcon = (item: NavItem) => {
+    switch (item) {
+      case "home":
+        return <HomeOutlinedIcon sx={{fontSize: "2rem", color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+      case "about":
+        return <PersonOutlineIcon  sx={{fontSize: "2rem", color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+      case "project":
+        return <WorkOutlineIcon  sx={{fontSize: "2rem", color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+      case "contact":
+        return <AlternateEmailIcon  sx={{fontSize: "2rem", color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+      default:
+        return null;
+    }
+  };
+
   const drawer = (
-    <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
+    <Box className= "site-wrapper" sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
       <Box
         sx={{
           display: "flex",
@@ -43,7 +63,7 @@ const Header: React.FC<Props> = (props) => {
           padding: 2,
         }}
       >
-        <IconButton onClick={handleDrawerToggle} sx={{ color: "#1F89E0" }}>
+        <IconButton onClick={handleDrawerToggle} sx={{ color: "#FFF" }}>
           <CloseIcon />
         </IconButton>
       </Box>
@@ -52,13 +72,13 @@ const Header: React.FC<Props> = (props) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "70vh",
+          height: "95vh",
           justifyContent: "space-evenly",
           alignItems: "center",
         }}
       >
-        <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-          hi <WavingHandIcon className="wave" sx={{ color: "gold" }} />
+        <Typography sx={{ fontSize: "1.7rem", fontWeight: "bold" }}>
+          Hi<WavingHandIcon className="wave" sx={{ color: "gold" , marginLeft: "0.7rem"}} />
         </Typography>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
@@ -66,20 +86,19 @@ const Header: React.FC<Props> = (props) => {
               onClick={() => setActiveItem(item)}
               href={`#${item}`}
               sx={{
+                display: "flex",
+                flexDirection: "column",
                 textAlign: "center",
               }}
             >
+              {getIcon(item)}
               <ListItemText
                 primary={item}
                 primaryTypographyProps={{
                   fontSize: "1.2rem",
                   fontWeight: "bold",
-                  color: activeItem === item ? "#fff" : "#1F89E0",
+                  color: "#FFF",
                   letterSpacing: "0.1rem",
-                  ...(activeItem === item && {
-                    backgroundColor: "#1fe0d6",
-                    borderRadius: "4px",
-                  }),
                 }}
               />
             </ListItemButton>
@@ -98,7 +117,7 @@ const Header: React.FC<Props> = (props) => {
       <AppBar
         component="nav"
         sx={{
-          backgroundColor: "#1F89E0",
+          background: "transparent",
           height: "100px",
           display: "flex",
           justifyContent: "center",
@@ -128,25 +147,25 @@ const Header: React.FC<Props> = (props) => {
                 key={item}
                 onClick={() => setActiveItem(item)}
                 sx={{
+                  display: "flex",
+                  gap: "0.5rem",
                   color: "#fff",
                   textTransform: "lowercase",
+              
                   letterSpacing: "4px",
                   fontSize: "1.2rem",
-                  ...(activeItem === item && {
-                    borderBottom: "2px solid #1fe0d6",
-                    // paddingBottom: "0.005rem",
-                    transition: "all 0.3s ease",
-                  }),
                 }}
                 href={`#${item}`}
                 className={activeItem === item ? "active" : ""}
               >
+                 {getIcon(item)}
                 {item}
               </Button>
             ))}
           </Box>
           <IconButton color="inherit" aria-label="toggle light dark mode">
             <DarkModeIcon />
+            
           </IconButton>
         </Toolbar>
       </AppBar>
