@@ -1,3 +1,9 @@
+import Box from "@mui/material/Box";
+
 export default function About() {
-  return <h1>About</h1>;
+  return (
+    <>
+      <Box className="about-wrapper"></Box>
+    </>
+  );
 }

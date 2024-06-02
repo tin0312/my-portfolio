@@ -13,29 +13,75 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import WavingHandIcon from "@mui/icons-material/WavingHand";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import CloseIcon from "@mui/icons-material/Close";
 
 const drawerWidth = 240;
 const navItems = ["home", "about", "project", "contact"];
 
-export default function Header(props: Props) {
+interface Props {
+  window?: () => Window;
+}
+
+const Header: React.FC<Props> = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [activeItem, setActiveItem] = React.useState("home");
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
+  // drawer on mobile
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        t r u o n g
-      </Typography>
+    <Box sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: 2,
+        }}
+      >
+        <IconButton onClick={handleDrawerToggle} sx={{ color: "#1F89E0" }}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
       <Divider />
-      <List>
+      <List
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "70vh",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+      >
+        <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold" }}>
+          hi <WavingHandIcon className="wave" sx={{ color: "gold" }} />
+        </Typography>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
+            <ListItemButton
+              onClick={() => setActiveItem(item)}
+              href={`#${item}`}
+              sx={{
+                textAlign: "center",
+              }}
+            >
+              <ListItemText
+                primary={item}
+                primaryTypographyProps={{
+                  fontSize: "1.2rem",
+                  fontWeight: "bold",
+                  color: activeItem === item ? "#fff" : "#1F89E0",
+                  letterSpacing: "0.1rem",
+                  ...(activeItem === item && {
+                    backgroundColor: "#1fe0d6",
+                    borderRadius: "4px",
+                  }),
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
@@ -58,7 +104,12 @@ export default function Header(props: Props) {
           justifyContent: "center",
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -68,31 +119,35 @@ export default function Header(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
+          <Typography variant="h4" component="div">
             t r u o n g
           </Typography>
-
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
             {navItems.map((item) => (
               <Button
                 key={item}
+                onClick={() => setActiveItem(item)}
                 sx={{
                   color: "#fff",
                   textTransform: "lowercase",
                   letterSpacing: "4px",
-                  fontSize: "1rem",
-                  paddingLeft: "2rem",
+                  fontSize: "1.2rem",
+                  ...(activeItem === item && {
+                    borderBottom: "2px solid #1fe0d6",
+                    // paddingBottom: "0.005rem",
+                    transition: "all 0.3s ease",
+                  }),
                 }}
+                href={`#${item}`}
+                className={activeItem === item ? "active" : ""}
               >
                 {item}
               </Button>
             ))}
           </Box>
+          <IconButton color="inherit" aria-label="toggle light dark mode">
+            <DarkModeIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <nav>
@@ -102,7 +157,7 @@ export default function Header(props: Props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
@@ -117,4 +172,6 @@ export default function Header(props: Props) {
       </nav>
     </Box>
   );
-}
+};
+
+export default Header;
