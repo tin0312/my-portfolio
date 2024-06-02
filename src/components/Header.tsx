@@ -42,13 +42,13 @@ const Header: React.FC<Props> = (props) => {
   const getIcon = (item: NavItem) => {
     switch (item) {
       case "home":
-        return <HomeOutlinedIcon sx={{fontSize: "2rem", color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+        return <HomeOutlinedIcon sx={{fontSize: {xs: "2rem", sm: "1.5rem"}, color: activeItem === item ? "#D07225" : "#FFF"}}/>;
       case "about":
-        return <PersonOutlineIcon  sx={{fontSize: "2rem", color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+        return <PersonOutlineIcon  sx={{fontSize: {xs: "2rem", sm: "1.5rem"}, color: activeItem === item ? "#D07225" : "#FFF"}}/>;
       case "project":
-        return <WorkOutlineIcon  sx={{fontSize: "2rem", color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+        return <WorkOutlineIcon  sx={{fontSize: {xs: "2rem", sm: "1.5rem"}, color: activeItem === item ? "#D07225" : "#FFF"}}/>;
       case "contact":
-        return <AlternateEmailIcon  sx={{fontSize: "2rem", color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+        return <AlternateEmailIcon  sx={{fontSize: {xs: "2rem", sm: "1.5rem"}, color: activeItem === item ? "#D07225" : "#FFF"}}/>;
       default:
         return null;
     }
@@ -89,6 +89,11 @@ const Header: React.FC<Props> = (props) => {
                 display: "flex",
                 flexDirection: "column",
                 textAlign: "center",
+                "&:hover": 
+                {  
+                transform:" translateY(-4px), translateX(-2px)",
+                boxShadow: "0px 0px 20px 5px  #2583D0"
+              }
               }}
             >
               {getIcon(item)}
@@ -153,7 +158,12 @@ const Header: React.FC<Props> = (props) => {
                   textTransform: "lowercase",
               
                   letterSpacing: "4px",
-                  fontSize: "1.2rem",
+                  fontSize: "1.2rem", 
+                  "&:hover": 
+                  {  
+                  transform:" translateY(-4px), translateX(-2px)",
+                  boxShadow: "2px 5px 0 0 #2583D0"
+                }
                 }}
                 href={`#${item}`}
                 className={activeItem === item ? "active" : ""}
