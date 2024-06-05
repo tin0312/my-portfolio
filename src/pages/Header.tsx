@@ -48,7 +48,7 @@ const Header: React.FC<Props> = (props) => {
         return (
           <HomeOutlinedIcon
             sx={{
-              fontSize: { xs: "2rem", sm: "1.5rem" },
+              fontSize: { xs: "2.5rem", sm: "1.5rem" },
               color: activeItem === item ? "#D07225" : "#FFF",
             }}
           />
@@ -57,7 +57,7 @@ const Header: React.FC<Props> = (props) => {
         return (
           <PersonOutlineIcon
             sx={{
-              fontSize: { xs: "2rem", sm: "1.5rem" },
+              fontSize: { xs: "2.5rem", sm: "1.5rem" },
               color: activeItem === item ? "#D07225" : "#FFF",
             }}
           />
@@ -66,7 +66,7 @@ const Header: React.FC<Props> = (props) => {
         return (
           <WorkOutlineIcon
             sx={{
-              fontSize: { xs: "2rem", sm: "1.5rem" },
+              fontSize: { xs: "2.5rem", sm: "1.5rem" },
               color: activeItem === item ? "#D07225" : "#FFF",
             }}
           />
@@ -75,7 +75,7 @@ const Header: React.FC<Props> = (props) => {
         return (
           <AlternateEmailIcon
             sx={{
-              fontSize: { xs: "2rem", sm: "1.5rem" },
+              fontSize: { xs: "2.5rem", sm: "1.5rem" },
               color: activeItem === item ? "#D07225" : "#FFF",
             }}
           />
@@ -102,10 +102,10 @@ const Header: React.FC<Props> = (props) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          padding: 2,
+          paddingX: 2,
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center", height: "6.25rem" }}>
           <Typography sx={{ fontSize: "1.7rem", fontWeight: "bold" }}>
             h i
           </Typography>
@@ -115,7 +115,7 @@ const Header: React.FC<Props> = (props) => {
           />
         </Box>
         <IconButton onClick={handleDrawerToggle} sx={{ color: "#FFF" }}>
-          <CloseIcon />
+          <CloseIcon sx={{fontSize: "2.8rem"}}/>
         </IconButton>
       </Box>
       <Divider />
@@ -170,7 +170,7 @@ const Header: React.FC<Props> = (props) => {
         component="nav"
         sx={{
           background: "transparent",
-          height: "100px",
+          height: "6.25rem",
           display: "flex",
           justifyContent: "center",
         }}
@@ -188,12 +188,12 @@ const Header: React.FC<Props> = (props) => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{fontSize: "2.8rem"}}/>
           </IconButton>
           <Typography
             variant="h4"
             component="div"
-            sx={{ letterSpacing: "0.2rem" }}
+            sx={{ letterSpacing: "0.5rem" }}
           >
             truong
           </Typography>
