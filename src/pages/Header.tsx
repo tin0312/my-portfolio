@@ -96,6 +96,7 @@ const Header: React.FC<Props> = (props) => {
           theme.palette.mode === "light"
             ? "linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25))"
             : "none",
+            backgroundColor: theme.palette.mode === 'dark' ? '#121212' : '#fff', // Customize based on the mode
       }}
     >
       <Box
@@ -123,9 +124,8 @@ const Header: React.FC<Props> = (props) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "95vh",
+          height: "90vh",
           justifyContent: "space-around",
-          alignItems: "center",
         }}
       >
         {navItems.map((item) => (
@@ -173,6 +173,9 @@ const Header: React.FC<Props> = (props) => {
           height: "6.25rem",
           display: "flex",
           justifyContent: "center",
+           boxShadow: theme.palette.mode === 'light' 
+                ? ''
+                : '0px 4px 6px rgba(255, 255, 255, 0.1)', 
         }}
       >
         <Toolbar

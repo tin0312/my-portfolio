@@ -39,6 +39,8 @@ export default function App() {
           justifyContent: "space-between",
           minHeight: "100vh",
           backgroundImage: theme.palette.mode === 'light' ? 'linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25))' : 'none',
+          backgroundColor: theme.palette.background.default,
+          transition: 'background-color 0.5s ease-in-out, background-image 0.5s ease-in-out',
         }}
       >
         <Box className="site-header">
