@@ -14,12 +14,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
 import CloseIcon from "@mui/icons-material/Close";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import { useTheme } from "@mui/material/styles";
+import ModeToggle from "../component/ModeToggle";
 
 const drawerWidth = 240;
 type NavItem = "home" | "about" | "project" | "contact";
@@ -28,12 +29,14 @@ const navItems: NavItem[] = ["home", "about", "project", "contact"];
 
 interface Props {
   window?: () => Window;
+  toggleTheme: () => void;
 }
 
 const Header: React.FC<Props> = (props) => {
-  const { window } = props;
+  const { window, toggleTheme } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<NavItem>("home");
+  const theme = useTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -42,27 +45,75 @@ const Header: React.FC<Props> = (props) => {
   const getIcon = (item: NavItem) => {
     switch (item) {
       case "home":
-        return <HomeOutlinedIcon sx={{fontSize: {xs: "2rem", sm: "1.5rem"}, color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+        return (
+          <HomeOutlinedIcon
+            sx={{
+              fontSize: { xs: "2rem", sm: "1.5rem" },
+              color: activeItem === item ? "#D07225" : "#FFF",
+            }}
+          />
+        );
       case "about":
-        return <PersonOutlineIcon  sx={{fontSize: {xs: "2rem", sm: "1.5rem"}, color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+        return (
+          <PersonOutlineIcon
+            sx={{
+              fontSize: { xs: "2rem", sm: "1.5rem" },
+              color: activeItem === item ? "#D07225" : "#FFF",
+            }}
+          />
+        );
       case "project":
-        return <WorkOutlineIcon  sx={{fontSize: {xs: "2rem", sm: "1.5rem"}, color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+        return (
+          <WorkOutlineIcon
+            sx={{
+              fontSize: { xs: "2rem", sm: "1.5rem" },
+              color: activeItem === item ? "#D07225" : "#FFF",
+            }}
+          />
+        );
       case "contact":
-        return <AlternateEmailIcon  sx={{fontSize: {xs: "2rem", sm: "1.5rem"}, color: activeItem === item ? "#D07225" : "#FFF"}}/>;
+        return (
+          <AlternateEmailIcon
+            sx={{
+              fontSize: { xs: "2rem", sm: "1.5rem" },
+              color: activeItem === item ? "#D07225" : "#FFF",
+            }}
+          />
+        );
       default:
         return null;
     }
   };
 
   const drawer = (
-    <Box className= "site-wrapper" sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}>
+    <Box
+      className="site-wrapper"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        textAlign: "center",
+        backgroundImage:
+          theme.palette.mode === "light"
+            ? "linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25))"
+            : "none",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           padding: 2,
         }}
       >
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography sx={{ fontSize: "1.7rem", fontWeight: "bold" }}>
+            h i
+          </Typography>
+          <WavingHandIcon
+            className="waving-hand"
+            sx={{ color: "gold", marginLeft: "0.7rem", fontSize: "1.7rem" }}
+          />
+        </Box>
         <IconButton onClick={handleDrawerToggle} sx={{ color: "#FFF" }}>
           <CloseIcon />
         </IconButton>
@@ -73,13 +124,10 @@ const Header: React.FC<Props> = (props) => {
           display: "flex",
           flexDirection: "column",
           height: "95vh",
-          justifyContent: "space-evenly",
+          justifyContent: "space-around",
           alignItems: "center",
         }}
       >
-        <Typography sx={{ fontSize: "1.7rem", fontWeight: "bold" }}>
-          Hi<WavingHandIcon className="wave" sx={{ color: "gold" , marginLeft: "0.7rem"}} />
-        </Typography>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton
@@ -89,11 +137,10 @@ const Header: React.FC<Props> = (props) => {
                 display: "flex",
                 flexDirection: "column",
                 textAlign: "center",
-                "&:hover": 
-                {  
-                transform:" translateY(-4px), translateX(-2px)",
-                boxShadow: "0px 0px 20px 5px  #2583D0"
-              }
+                "&:hover": {
+                  transform: " translateY(-4px), translateX(-2px)",
+                  boxShadow: "0px 0px 20px 5px  #2583D0",
+                },
               }}
             >
               {getIcon(item)}
@@ -143,8 +190,12 @@ const Header: React.FC<Props> = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h4" component="div">
-            t r u o n g
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{ letterSpacing: "0.2rem" }}
+          >
+            truong
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
             {navItems.map((item) => (
@@ -156,26 +207,28 @@ const Header: React.FC<Props> = (props) => {
                   gap: "0.5rem",
                   color: "#fff",
                   textTransform: "lowercase",
-              
+
                   letterSpacing: "4px",
-                  fontSize: "1.2rem", 
-                  "&:hover": 
-                  {  
-                  transform:" translateY(-4px), translateX(-2px)",
-                  boxShadow: "2px 5px 0 0 #2583D0"
-                }
+                  fontSize: "1.2rem",
+                  "&:hover": {
+                    transform: " translateY(-4px), translateX(-2px)",
+                    boxShadow: "2px 5px 0 0 #2583D0",
+                  },
                 }}
                 href={`#${item}`}
                 className={activeItem === item ? "active" : ""}
               >
-                 {getIcon(item)}
+                {getIcon(item)}
                 {item}
               </Button>
             ))}
           </Box>
-          <IconButton color="inherit" aria-label="toggle light dark mode">
-            <DarkModeIcon />
-            
+          <IconButton
+            color="inherit"
+            aria-label="toggle light dark mode"
+            onClick={toggleTheme}
+          >
+            <ModeToggle />
           </IconButton>
         </Toolbar>
       </AppBar>
