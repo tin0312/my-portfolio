@@ -43,7 +43,7 @@ const Shadow = styled(Box)({
   backgroundColor: "#212121",
   position: "absolute",
   top: "-10px",
-  left: "0",
+  left: "10px",
   animation: `${animate} 3s infinite 1.5s`,
 });
 

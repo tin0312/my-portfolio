@@ -21,6 +21,8 @@ import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import { useTheme } from "@mui/material/styles";
 import ModeToggle from "../component/ModeToggle";
+import { keyframes } from "@mui/material/styles";
+import WavingHand from "../component/WavingHand";
 
 const drawerWidth = 240;
 type NavItem = "home" | "about" | "project" | "contact";
@@ -96,7 +98,7 @@ const Header: React.FC<Props> = (props) => {
           theme.palette.mode === "light"
             ? "linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25))"
             : "none",
-            backgroundColor: theme.palette.mode === 'dark' ? '#121212' : '#fff', // Customize based on the mode
+        backgroundColor: theme.palette.mode === "dark" ? "#121212" : "#fff", // Customize based on the mode
       }}
     >
       <Box
@@ -110,13 +112,10 @@ const Header: React.FC<Props> = (props) => {
           <Typography sx={{ fontSize: "1.7rem", fontWeight: "bold" }}>
             h i
           </Typography>
-          <WavingHandIcon
-            className="waving-hand"
-            sx={{ color: "gold", marginLeft: "0.7rem", fontSize: "1.7rem" }}
-          />
+          <WavingHand />
         </Box>
         <IconButton onClick={handleDrawerToggle} sx={{ color: "#FFF" }}>
-          <CloseIcon sx={{fontSize: "2.8rem"}}/>
+          <CloseIcon sx={{ fontSize: "2.8rem" }} />
         </IconButton>
       </Box>
       <Divider />
@@ -173,9 +172,10 @@ const Header: React.FC<Props> = (props) => {
           height: "6.25rem",
           display: "flex",
           justifyContent: "center",
-           boxShadow: theme.palette.mode === 'light' 
-                ? ''
-                : '0px 4px 6px rgba(255, 255, 255, 0.1)', 
+          boxShadow:
+            theme.palette.mode === "light"
+              ? ""
+              : "0px 4px 6px rgba(255, 255, 255, 0.1)",
         }}
       >
         <Toolbar
@@ -191,7 +191,7 @@ const Header: React.FC<Props> = (props) => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon sx={{fontSize: "2.8rem"}}/>
+            <MenuIcon sx={{ fontSize: "2.8rem" }} />
           </IconButton>
           <Typography
             variant="h4"

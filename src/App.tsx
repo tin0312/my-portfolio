@@ -10,7 +10,19 @@ import Projects from "./pages/Projects";
 import "./App.css";
 import PreloaderLight from "./component/PreloaderLight";
 import PreloaderDark from "./component/PreloaderDark";
+import { keyframes } from "@mui/material/styles";
 
+const fadeInAnimation = keyframes`
+         0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 const themeLight = createTheme({
   palette: {
     mode: "light",
@@ -70,6 +82,7 @@ export default function App() {
             backgroundColor: theme.palette.background.default,
             transition:
               "background-color 0.5s ease-in-out, background-image 0.5s ease-in-out",
+            animation: loading ? "none" : `${fadeInAnimation} ease 4s forwards`, // Apply animation only when not loading
           }}
         >
           <Box className="site-header">
