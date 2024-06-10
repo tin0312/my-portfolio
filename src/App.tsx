@@ -8,6 +8,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import "./App.css";
+import PreloaderLight from "./component/PreloaderLight";
+import PreloaderDark from "./component/PreloaderDark";
 
 const themeLight = createTheme({
   palette: {
@@ -26,11 +28,21 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === themeLight ? themeDark : themeLight));
+    const newTheme = theme === themeLight ? themeDark : themeLight;
+    localStorage.setItem("theme", newTheme === themeDark ? "dark" : "light");
+    setTheme(newTheme);
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000); // Simulating a loading time
+    let timer;
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      setTheme(themeDark);
+      timer = setTimeout(() => setLoading(false), 4000);
+    } else {
+      setTheme(themeLight);
+      timer = setTimeout(() => setLoading(false), 2000);
+    }
     return () => clearTimeout(timer);
   }, []);
 
@@ -38,113 +50,11 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100vw",
-            height: "100vh",
-            backgroundImage: theme.palette.mode === "light"
-              ? "linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25))"
-              : "none",
-          }}
-        >
-          <Box
-            sx={{
-              width: '250px',
-              height: '250px',
-              padding: '15px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-            }}
-          >
-            <Box
-              sx={{
-                width: '250px',
-                position: 'absolute',
-                zIndex: 11,
-                animation: 'clouds 8s infinite ease-in-out',
-                display: 'flex',
-                paddingTop: '45px',
-                marginLeft: '25px',
-              }}
-            >
-              <Box
-                sx={{
-                  width: '65px',
-                  height: '65px',
-                  borderRadius: '50% 50% 0 50%',
-                  backgroundColor: '#4c9beb',
-                  display: 'inline-block',
-                }}
-              ></Box>
-              <Box
-                sx={{
-                  width: '45px',
-                  height: '45px',
-                  borderRadius: '50% 50% 50% 0',
-                  backgroundColor: '#4c9beb',
-                  display: 'inline-block',
-                  marginLeft: '-25px',
-                }}
-              ></Box>
-            </Box>
-            <Box
-              sx={{
-                width: '120px',
-                height: '120px',
-                background: 'linear-gradient(to right, #fcbb04, #fffc00)',
-                borderRadius: '60px',
-                position: 'absolute',
-              }}
-              className="sunshine"
-            ></Box>
-            <Box
-              sx={{
-                width: '120px',
-                height: '120px',
-                background: 'linear-gradient(to right, #fcbb04, #fffc00)',
-                borderRadius: '60px',
-                position: 'absolute',
-                animation: 'sunshines 2s infinite',
-              }}
-            ></Box>
-            <Box
-              sx={{
-                width: '250px',
-                position: 'absolute',
-                zIndex: 12,
-                animation: 'clouds 12s infinite ease-in-out',
-                display: 'flex',
-                marginTop: '-30px',
-                marginLeft: '150px',
-              }}
-            >
-              <Box
-                sx={{
-                  width: '30px',
-                  height: '30px',
-                  borderRadius: '50% 50% 0 50%',
-                  backgroundColor: '#4c9beb',
-                  display: 'inline-block',
-                }}
-              ></Box>
-              <Box
-                sx={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '50% 50% 50% 0',
-                  backgroundColor: '#4c9beb',
-                  display: 'inline-block',
-                  marginLeft: '-20px',
-                }}
-              ></Box>
-            </Box>
-          </Box>
-        </Box>
+        theme.palette.mode === "dark" ? (
+          <PreloaderDark theme={theme} />
+        ) : (
+          <PreloaderLight theme={theme} />
+        )
       ) : (
         <Box
           className="site-wrapper"
@@ -175,29 +85,6 @@ export default function App() {
           </Box>
         </Box>
       )}
-      <style jsx>{`
-        @keyframes sunshines {
-          0% {
-            transform: scale(1);
-            opacity: 0.6;
-          }
-          100% {
-            transform: scale(1.4);
-            opacity: 0;
-          }
-        }
-        @keyframes clouds {
-          0% {
-            transform: translateX(15px);
-          }
-          50% {
-            transform: translateX(0px);
-          }
-          100% {
-            transform: translateX(15px);
-          }
-        }
-      `}</style>
     </ThemeProvider>
   );
 }
