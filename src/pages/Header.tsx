@@ -40,8 +40,8 @@ const Header: React.FC<Props> = (props) => {
   const theme = useTheme();
 
   const handleClickRoute = (
-    item: NavItem,
-    e: React.MouseEvent<HTMLAnchorElement>
+    item: NavItem
+    // e: React.MouseEvent<HTMLAnchorElement>
   ) => {
     // e.preventDefault();
     // const target = e.target as HTMLAnchorElement;
@@ -148,7 +148,7 @@ const Header: React.FC<Props> = (props) => {
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton
-              onClick={(e) => handleClickRoute(item, e)}
+              onClick={() => handleClickRoute(item)}
               href={`#${item}`}
               sx={{
                 display: "flex",
@@ -224,7 +224,7 @@ const Header: React.FC<Props> = (props) => {
             {navItems.map((item) => (
               <Button
                 key={item}
-                onClick={(e) => handleClickRoute(item, e)}
+                onClick={() => handleClickRoute(item)}
                 sx={{
                   display: "flex",
                   gap: "0.5rem",
