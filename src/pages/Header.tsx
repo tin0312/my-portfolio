@@ -45,7 +45,7 @@ const Header: React.FC<Props> = (props) => {
   ) => {
     // e.preventDefault();
     const target = e.target as HTMLAnchorElement;
-    const id = target.getAttribute("href");
+    // const id = target.getAttribute("href");
     setActiveItem(item);
     setMobileOpen(false);
     setShowPreload(true);
