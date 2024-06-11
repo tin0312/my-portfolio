@@ -44,7 +44,7 @@ const Header: React.FC<Props> = (props) => {
     e: React.MouseEvent<HTMLAnchorElement>
   ) => {
     // e.preventDefault();
-    const target = e.target as HTMLAnchorElement;
+    // const target = e.target as HTMLAnchorElement;
     // const id = target.getAttribute("href");
     setActiveItem(item);
     setMobileOpen(false);
