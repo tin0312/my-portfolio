@@ -13,7 +13,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import WavingHandIcon from "@mui/icons-material/WavingHand";
 import CloseIcon from "@mui/icons-material/Close";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -21,7 +20,6 @@ import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import { useTheme } from "@mui/material/styles";
 import ModeToggle from "../component/ModeToggle";
-import { keyframes } from "@mui/material/styles";
 import WavingHand from "../component/WavingHand";
 
 const drawerWidth = 240;
@@ -32,14 +30,33 @@ const navItems: NavItem[] = ["home", "about", "project", "contact"];
 interface Props {
   window?: () => Window;
   toggleTheme: () => void;
+  setShowPreload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Header: React.FC<Props> = (props) => {
-  const { window, toggleTheme } = props;
+  const { window, toggleTheme, setShowPreload } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<NavItem>("home");
   const theme = useTheme();
 
+  const handleClickRoute = (
+    item: NavItem,
+    e: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    // e.preventDefault();
+    const target = e.target as HTMLAnchorElement;
+    const id = target.getAttribute("href");
+    setActiveItem(item);
+    setMobileOpen(false);
+    setShowPreload(true);
+    // const element = document.querySelector(id!);
+    // if (element) {
+    setTimeout(() => {
+      // element.scrollIntoView({ behavior: "smooth" });
+      setShowPreload(false);
+    }, 700);
+    // }
+  };
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -87,6 +104,7 @@ const Header: React.FC<Props> = (props) => {
     }
   };
 
+  // Navbar on mobile start here
   const drawer = (
     <Box
       className="site-wrapper"
@@ -98,7 +116,7 @@ const Header: React.FC<Props> = (props) => {
           theme.palette.mode === "light"
             ? "linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25))"
             : "none",
-        backgroundColor: theme.palette.mode === "dark" ? "#121212" : "#fff", // Customize based on the mode
+        backgroundColor: theme.palette.mode === "dark" ? "#121212" : "#fff",
       }}
     >
       <Box
@@ -130,7 +148,7 @@ const Header: React.FC<Props> = (props) => {
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton
-              onClick={() => setActiveItem(item)}
+              onClick={(e) => handleClickRoute(item, e)}
               href={`#${item}`}
               sx={{
                 display: "flex",
@@ -158,6 +176,7 @@ const Header: React.FC<Props> = (props) => {
       </List>
     </Box>
   );
+  //Narbar for mobile ends here
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -200,11 +219,12 @@ const Header: React.FC<Props> = (props) => {
           >
             truong
           </Typography>
+          {/* Navbar on desktop */}
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
             {navItems.map((item) => (
               <Button
                 key={item}
-                onClick={() => setActiveItem(item)}
+                onClick={(e) => handleClickRoute(item, e)}
                 sx={{
                   display: "flex",
                   gap: "0.5rem",
@@ -235,6 +255,7 @@ const Header: React.FC<Props> = (props) => {
           </IconButton>
         </Toolbar>
       </AppBar>
+      {/* Hide drawer navbar in desktop */}
       <nav>
         <Drawer
           container={container}
