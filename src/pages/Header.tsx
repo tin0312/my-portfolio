@@ -14,7 +14,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
@@ -23,39 +22,34 @@ import ModeToggle from "../component/ModeToggle";
 import WavingHand from "../component/WavingHand";
 
 const drawerWidth = 240;
-type NavItem = "home" | "about" | "project" | "contact";
+type NavItem =  "about" | "projects" | "contact";
 
-const navItems: NavItem[] = ["home", "about", "project", "contact"];
+const navItems: NavItem[] = ["about", "projects", "contact"];
 
 interface Props {
   window?: () => Window;
   toggleTheme: () => void;
-  setShowPreload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Header: React.FC<Props> = (props) => {
-  const { window, toggleTheme, setShowPreload } = props;
+  const { window, toggleTheme } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [activeItem, setActiveItem] = React.useState<NavItem>("home");
+  const [activeItem, setActiveItem] = React.useState<NavItem>("about");
   const theme = useTheme();
 
   const handleClickRoute = (
-    item: NavItem
-    // e: React.MouseEvent<HTMLAnchorElement>
+    item: NavItem,
+    e: React.MouseEvent<HTMLAnchorElement>
   ) => {
-    // e.preventDefault();
-    // const target = e.target as HTMLAnchorElement;
-    // const id = target.getAttribute("href");
+    e.preventDefault();
+    const target = e.target as HTMLAnchorElement;
+    const id = target.getAttribute("href");
     setActiveItem(item);
     setMobileOpen(false);
-    setShowPreload(true);
-    // const element = document.querySelector(id!);
-    // if (element) {
-    setTimeout(() => {
-      // element.scrollIntoView({ behavior: "smooth" });
-      setShowPreload(false);
-    }, 700);
-    // }
+    const element = document.querySelector(id!);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
   };
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -63,15 +57,6 @@ const Header: React.FC<Props> = (props) => {
 
   const getIcon = (item: NavItem) => {
     switch (item) {
-      case "home":
-        return (
-          <HomeOutlinedIcon
-            sx={{
-              fontSize: { xs: "2.5rem", sm: "1.5rem" },
-              color: activeItem === item ? "#D07225" : "#FFF",
-            }}
-          />
-        );
       case "about":
         return (
           <PersonOutlineIcon
@@ -81,7 +66,7 @@ const Header: React.FC<Props> = (props) => {
             }}
           />
         );
-      case "project":
+      case "projects":
         return (
           <WorkOutlineIcon
             sx={{
@@ -148,7 +133,7 @@ const Header: React.FC<Props> = (props) => {
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton
-              onClick={() => handleClickRoute(item)}
+              onClick={(e) => handleClickRoute(item, e)}
               href={`#${item}`}
               sx={{
                 display: "flex",
@@ -224,7 +209,7 @@ const Header: React.FC<Props> = (props) => {
             {navItems.map((item) => (
               <Button
                 key={item}
-                onClick={() => handleClickRoute(item)}
+                onClick={(e) => handleClickRoute(item, e)}
                 sx={{
                   display: "flex",
                   gap: "0.5rem",

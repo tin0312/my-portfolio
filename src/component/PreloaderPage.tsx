@@ -8,9 +8,9 @@ const Wrapper = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   minHeight: "100vh",
   backgroundImage:
-    theme.palette.mode === "light"
-      ? "linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25))"
-      : "none",
+  theme.palette.mode === "light"
+    ? "linear-gradient(135deg, rgba(37, 131, 208, 0.9) 30%, rgba(14, 63, 104, 0.5) 100%)"
+    : "none",
 }));
 
 const Cube = styled(Box)({

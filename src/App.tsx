@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,8 +8,6 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import "./App.css";
-import PreloaderLight from "./component/PreloaderLight";
-import PreloaderDark from "./component/PreloaderDark";
 import PreloadPage from "./component/PreloaderPage";
 import { keyframes } from "@mui/material/styles";
 
@@ -40,7 +37,6 @@ const themeDark = createTheme({
 export default function App() {
   const [theme, setTheme] = useState(themeLight);
   const [loading, setLoading] = useState(true);
-  const [showPreload, setShowPreload] = React.useState(false);
 
   const toggleTheme = () => {
     const newTheme = theme === themeLight ? themeDark : themeLight;
@@ -49,31 +45,19 @@ export default function App() {
   };
 
   useEffect(() => {
-    let timer;
+    const timer = setTimeout(() => setLoading(false), 1000);
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark") {
-      setTheme(themeDark);
-      timer = setTimeout(() => setLoading(false), 4000);
-    } else {
-      setTheme(themeLight);
-      timer = setTimeout(() => setLoading(false), 2000);
-    }
+    setTheme(storedTheme === "dark" ? themeDark : themeLight);
+  
     return () => clearTimeout(timer);
   }, []);
+  
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {showPreload ? (
-        <PreloadPage theme={theme} />
-      ) : loading ? (
-        theme.palette.mode === "dark" ? (
-          <PreloaderDark theme={theme} />
-        ) : (
-          <PreloaderLight theme={theme} />
-        )
-      ) : (
-        <Box
+      {loading ?  <PreloadPage theme={theme}/> : 
+        (<Box
           className="site-wrapper"
           sx={{
             display: "flex",
@@ -82,16 +66,16 @@ export default function App() {
             minHeight: "100vh",
             backgroundImage:
               theme.palette.mode === "light"
-                ? "linear-gradient(rgb(37, 131, 208, 0.9), rgba(14, 63, 104, 0.25))"
+                ? "linear-gradient(135deg, rgba(37, 131, 208, 0.9) 30%, rgba(14, 63, 104, 0.5) 100%)"
                 : "none",
             backgroundColor: theme.palette.background.default,
             transition:
               "background-color 0.5s ease-in-out, background-image 0.5s ease-in-out",
-            animation: loading ? "none" : `${fadeInAnimation} ease 2s forwards`, // Apply animation only when not loading
+            animation: loading ? "none" : `${fadeInAnimation} ease 1s forwards`, 
           }}
         >
           <Box className="site-header">
-            <Header toggleTheme={toggleTheme} setShowPreload={setShowPreload} />
+            <Header toggleTheme={toggleTheme} />
           </Box>
           <Box className="site-main">
             <About />
@@ -101,8 +85,7 @@ export default function App() {
           <Box className="site-footer">
             <Footer />
           </Box>
-        </Box>
-      )}
+        </Box>)}
     </ThemeProvider>
   );
 }
