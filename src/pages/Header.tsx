@@ -2,13 +2,8 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -19,7 +14,6 @@ import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import { useTheme } from "@mui/material/styles";
 import ModeToggle from "../component/ModeToggle";
-import WavingHand from "../component/WavingHand";
 
 const drawerWidth = 240;
 type NavItem = "about" | "projects" | "contact";
@@ -42,17 +36,13 @@ const Header: React.FC<Props> = (props) => {
     e: React.MouseEvent<HTMLAnchorElement>
   ) => {
     e.preventDefault();
-    const target = e.target as HTMLAnchorElement;
-    const id = target.getAttribute("href");
+    const id = `#${item}`;
     setActiveItem(item);
     setMobileOpen(false);
-    const element = document.querySelector(id!);
+    const element = document.querySelector(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
-  };
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
   };
 
   const getIcon = (item: NavItem) => {
@@ -89,7 +79,13 @@ const Header: React.FC<Props> = (props) => {
     }
   };
 
-  // Navbar on mobile start here
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
   const drawer = (
     <Box
       className="site-wrapper"
@@ -108,21 +104,23 @@ const Header: React.FC<Props> = (props) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          paddingX: 2,
+          boxShadow: theme.palette.mode === "light" ? "0px 2px 4px rgba(0, 0, 0, 0.1)" : "0px 4px 6px rgba(255, 255, 255, 0.1)"
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", height: "6.25rem" }}>
-          <Typography sx={{ fontSize: "1.7rem", fontWeight: "bold" }}>
-            h i
-          </Typography>
-          <WavingHand />
-        </Box>
+        <Box
+          component="img"
+          sx={{
+            height: 100,
+            width: 120,
+          }}
+          alt="logo"
+          src="./assets/images/myLogo.png"
+        />
         <IconButton onClick={handleDrawerToggle} sx={{ color: "#FFF" }}>
           <CloseIcon sx={{ fontSize: "2.8rem" }} />
         </IconButton>
       </Box>
-      <Divider />
-      <List
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -131,40 +129,37 @@ const Header: React.FC<Props> = (props) => {
         }}
       >
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton
-              onClick={(e) => handleClickRoute(item, e)}
-              href={`#${item}`}
+          <Button
+            key={item}
+            onClick={(e) => handleClickRoute(item, e)}
+            href={`#${item}`}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "center",
+              "&:hover": {
+                transform: " translateY(-4px), translateX(-2px)",
+                boxShadow: "0px 0px 20px 5px  #2583D0",
+              },
+            }}
+          >
+            {getIcon(item)}
+            <Typography
+              variant="body1"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                textAlign: "center",
-                "&:hover": {
-                  transform: " translateY(-4px), translateX(-2px)",
-                  boxShadow: "0px 0px 20px 5px  #2583D0",
-                },
+                color: "#FFF",
+                fontSize: "1.2rem",
+                fontWeight: "bold",
+                letterSpacing: "0.1rem",
               }}
             >
-              {getIcon(item)}
-              <ListItemText
-                primary={item}
-                primaryTypographyProps={{
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  color: "#FFF",
-                  letterSpacing: "0.1rem",
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
+              {item}
+            </Typography>
+          </Button>
         ))}
-      </List>
+      </Box>
     </Box>
   );
-  //Narbar for mobile ends here
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -198,15 +193,15 @@ const Header: React.FC<Props> = (props) => {
             <MenuIcon sx={{ fontSize: "2.8rem" }} />
           </IconButton>
           <Box
-            component="img" 
+            component="img"
             sx={{
+              display: { xs: "none", lg: "block" },
               height: 100,
               width: 120,
             }}
             alt="logo"
-            src="public/assets/images/myLogo.png"
+            src="./assets/images/myLogo.png"
           />
-          {/* Navbar on desktop */}
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
             {navItems.map((item) => (
               <Button
@@ -217,7 +212,6 @@ const Header: React.FC<Props> = (props) => {
                   gap: "0.5rem",
                   color: "#fff",
                   textTransform: "lowercase",
-
                   letterSpacing: "4px",
                   fontSize: "1.2rem",
                   "&:hover": {
@@ -242,7 +236,6 @@ const Header: React.FC<Props> = (props) => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      {/* Hide drawer navbar in desktop */}
       <nav>
         <Drawer
           container={container}
