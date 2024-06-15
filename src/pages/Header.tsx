@@ -22,7 +22,7 @@ import ModeToggle from "../component/ModeToggle";
 import WavingHand from "../component/WavingHand";
 
 const drawerWidth = 240;
-type NavItem =  "about" | "projects" | "contact";
+type NavItem = "about" | "projects" | "contact";
 
 const navItems: NavItem[] = ["about", "projects", "contact"];
 
@@ -48,7 +48,7 @@ const Header: React.FC<Props> = (props) => {
     setMobileOpen(false);
     const element = document.querySelector(id!);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
   const handleDrawerToggle = () => {
@@ -197,13 +197,15 @@ const Header: React.FC<Props> = (props) => {
           >
             <MenuIcon sx={{ fontSize: "2.8rem" }} />
           </IconButton>
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{ letterSpacing: "0.5rem" }}
-          >
-            truong
-          </Typography>
+          <Box
+            component="img" 
+            sx={{
+              height: 100,
+              width: 120,
+            }}
+            alt="logo"
+            src="public/assets/images/myLogo.png"
+          />
           {/* Navbar on desktop */}
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
             {navItems.map((item) => (
