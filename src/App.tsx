@@ -10,6 +10,10 @@ import Projects from "./pages/Projects";
 import "./App.css";
 import PreloadPage from "./component/PreloaderPage";
 import { keyframes } from "@mui/material/styles";
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Fade from '@mui/material/Fade';
+import Fab from '@mui/material/Fab';
 
 const fadeInAnimation = keyframes`
          0% {
@@ -51,7 +55,45 @@ export default function App() {
   
     return () => clearTimeout(timer);
   }, []);
+
+  interface Props {
+    window?: () => Window;
+    children: React.ReactElement;
+  }
   
+  function ScrollTop(props: Props) {
+    const { children, window } = props;
+    const trigger = useScrollTrigger({
+      target: window ? window() : undefined,
+      disableHysteresis: true,
+      threshold: 100,
+    });
+  
+    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+      const anchor = (
+        (event.target as HTMLDivElement).ownerDocument || document
+      ).querySelector('#back-to-top-anchor');
+  
+      if (anchor) {
+        anchor.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+    };
+  
+    return (
+      <Fade in={trigger}>
+        <Box
+          onClick={handleClick}
+          role="presentation"
+          sx={{ position: 'fixed', bottom: 16, right: 16 }}
+        >
+          {children}
+        </Box>
+      </Fade>
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -74,7 +116,7 @@ export default function App() {
             animation: loading ? "none" : `${fadeInAnimation} ease 1s forwards`, 
           }}
         >
-          <Box className="site-header">
+          <Box id="back-to-top-anchor" className="site-header">
             <Header toggleTheme={toggleTheme} />
           </Box>
           <Box className="site-main">
@@ -86,6 +128,11 @@ export default function App() {
             <Footer />
           </Box>
         </Box>)}
+        <ScrollTop>
+        <Fab size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
     </ThemeProvider>
   );
 }
