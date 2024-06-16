@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useTheme } from '@mui/material/styles';
-import ExpandIcon from '../component/ExpandIcon';
+import { useTheme } from "@mui/material/styles";
+import ExpandIcon from "../component/ExpandIcon";
 
 interface TextType {
   elem: HTMLElement;
@@ -21,14 +21,16 @@ class TextTypeImpl implements TextType {
   loopNum: number;
   text: string;
   isDeleting: boolean;
+  timeoutId: NodeJS.Timeout | null;
 
   constructor(elem: HTMLElement, rotateElem: string[], period: number) {
     this.elem = elem;
     this.rotateElem = rotateElem;
     this.period = period || 2000;
     this.loopNum = 0;
-    this.text = '';
+    this.text = "";
     this.isDeleting = false;
+    this.timeoutId = null;
     this.tick = this.tick.bind(this);
     this.tick();
   }
@@ -43,9 +45,9 @@ class TextTypeImpl implements TextType {
       this.text = fullText.substring(0, this.text.length + 1);
     }
 
-    this.elem.querySelector('.wrap')!.textContent = this.text;
+    this.elem.querySelector(".wrap")!.textContent = this.text;
 
-    let delta = 100; // Adjust timing for smoother effect
+    let delta = 200 - Math.random() * 100;
 
     if (this.isDeleting) {
       delta /= 2;
@@ -54,13 +56,19 @@ class TextTypeImpl implements TextType {
     if (!this.isDeleting && this.text === fullText) {
       delta = this.period;
       this.isDeleting = true;
-    } else if (this.isDeleting && this.text === '') {
+    } else if (this.isDeleting && this.text === "") {
       this.isDeleting = false;
       this.loopNum++;
       delta = 500;
     }
 
-    setTimeout(() => this.tick(), delta);
+    this.timeoutId = setTimeout(this.tick, delta);
+  }
+
+  stop() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
   }
 }
 
@@ -69,18 +77,25 @@ const About: React.FC = () => {
   const theme = useTheme();
 
   useEffect(() => {
+    let typewriter: TextTypeImpl | null = null;
+
     if (typewriteRef.current) {
       const element = typewriteRef.current;
-      const toRotate = JSON.parse(element.getAttribute('data-type') || '[]');
-      const period = parseInt(element.getAttribute('data-period') || '2000', 10);
-      new TextTypeImpl(element, toRotate, period);
+      const toRotate = JSON.parse(element.getAttribute("data-type") || "[]");
+      const period = parseInt(
+        element.getAttribute("data-period") || "2000",
+        10
+      );
+      typewriter = new TextTypeImpl(element, toRotate, period);
 
       // Dynamically add the CSS
       const colorValue = theme.palette.mode === "dark" ? "#D07225" : "#FFF";
-      const css = document.createElement('style');
+      const css = document.createElement("style");
       css.innerHTML = `.typewrite > .wrap { border-right: 0.08em solid ${colorValue}; }`;
       document.head.appendChild(css);
+
       return () => {
+        typewriter?.stop();
         document.head.removeChild(css);
       };
     }
@@ -100,20 +115,20 @@ const About: React.FC = () => {
       <Typography
         sx={{
           opacity: 0.05,
-          fontSize: {xs: "13rem", lg: "15rem"},
+          fontSize: { xs: "13rem", lg: "15rem" },
           lineHeight: "1",
           margin: 0,
           padding: 0,
           position: "relative",
           zIndex: 1,
-          fontWeight: "bolder"
+          fontWeight: "bolder",
         }}
       >
         Hi
       </Typography>
       <Typography
         sx={{
-          fontSize: {xs: "8rem", lg: "14rem"},
+          fontSize: { xs: "8rem", lg: "14rem" },
           fontWeight: "bold",
           letterSpacing: "0.5rem",
           lineHeight: "1",
@@ -121,7 +136,7 @@ const About: React.FC = () => {
           padding: 0,
           position: "relative",
           zIndex: 2,
-          marginTop: {xs: "-70px", lg: "-100px"}
+          marginTop: { xs: "-70px", lg: "-100px" },
         }}
       >
         I am
@@ -137,10 +152,12 @@ const About: React.FC = () => {
           padding: 0,
           position: "relative",
           zIndex: 3,
-          color: theme.palette.mode === 'dark' ? '#D07225' : '#FFF',
-          textShadow: `0 0 10px ${theme.palette.mode === 'dark' ? '#D07225' : '#FFF'}`, 
-          '&:hover': {
-            transform: 'scale(1.05)',
+          color: theme.palette.mode === "dark" ? "#D07225" : "#FFF",
+          textShadow: `0 0 10px ${
+            theme.palette.mode === "dark" ? "#D07225" : "#FFF"
+          }`,
+          "&:hover": {
+            transform: "scale(1.05)",
           },
         }}
       >
@@ -150,17 +167,21 @@ const About: React.FC = () => {
         className="typewrite"
         sx={{
           color: theme.palette.mode === "dark" ? "#FFF" : "#D07225",
-          fontSize: {xs: "1.2rem", lg: "1.8rem"},
+          fontSize: { xs: "1.2rem", lg: "1.8rem" },
           marginTop: "1rem",
-          height: "2rem"
+          height: "2rem",
         }}
         ref={typewriteRef}
         data-period="2000"
         data-type='["I am a software developer.", "I build.", "I code."]'
       >
-        <Box component="span" className="wrap" sx={ {color: theme.palette.mode === "dark" ? "#FFF" : "#D07225"}}></Box>
+        <Box
+          component="span"
+          className="wrap"
+          sx={{ color: theme.palette.mode === "dark" ? "#FFF" : "#D07225" }}
+        ></Box>
       </Box>
-     <ExpandIcon/>
+      <ExpandIcon />
     </Box>
   );
 };
