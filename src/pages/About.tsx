@@ -21,7 +21,7 @@ class TextTypeImpl implements TextType {
   loopNum: number;
   text: string;
   isDeleting: boolean;
-  timeoutId: NodeJS.Timeout | null;
+  timeoutId: ReturnType<typeof setTimeout> | null;
 
   constructor(elem: HTMLElement, rotateElem: string[], period: number) {
     this.elem = elem;
