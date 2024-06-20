@@ -28,7 +28,7 @@ export default function Projects() {
         },
       }}
     >
-      <Typography variant="h2" sx={{ my: 10 }}>
+      <Typography variant="h2" sx={{ marginTop: 15, marginBottom: 7}}>
         Projects
       </Typography>
       <Box
@@ -41,6 +41,7 @@ export default function Projects() {
           "@media (max-width: 600px)": {
             width: "90%",
             flexDirection: "column",
+            alignItems: "center",
             gap: "4rem",
           },
         }}
@@ -51,6 +52,7 @@ export default function Projects() {
             sx={{
               maxWidth: 345,
               height: 375,
+              borderRadius: "20",
               boxShadow:
                 theme.palette.mode === "light"
                   ? "0px 0px 100000px rgba(0, 0, 0, 0.1)"
@@ -64,7 +66,7 @@ export default function Projects() {
               height="140"
               image={project.img}
               sx={{
-                boxShadow: '0 0px 8px rgba(0, 0, 0, 0.3)',
+                boxShadow: '0 0px 7px rgba(0, 0, 0, 0.3)',
               }}
             />
             <CardContent>

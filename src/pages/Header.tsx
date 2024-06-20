@@ -202,7 +202,7 @@ const Header: React.FC<Props> = (props) => {
             alt="logo"
             src="./assets/images/myLogo.png"
           />
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem"}}>
             {navItems.map((item) => (
               <Button
                 key={item}
