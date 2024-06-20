@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import AnimatedForm from "../component/AnimatedForm";
 import { Typography } from "@mui/material";
 
 export default function Contact() {
@@ -19,7 +18,6 @@ export default function Contact() {
         <Typography variant="h2" sx={{ marginTop: 15, marginBottom: 7 }}>
           Say hi
         </Typography>
-        <AnimatedForm />
       </Box>
     </>
   );
