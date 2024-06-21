@@ -34,12 +34,11 @@ export default function Projects() {
       <Box
         sx={{
           display: "flex",
-          // justifyContent: "space-between",
           gap: "8rem",
           width: "80%",
           flexWrap: "wrap",
           "@media (max-width: 600px)": {
-            width: "90%",
+            width: "90vw",
             flexDirection: "column",
             alignItems: "center",
             gap: "4rem",
@@ -50,14 +49,14 @@ export default function Projects() {
           <Card
             key={index}
             sx={{
-              maxWidth: 345,
+              width: 345,
               height: 375,
               borderRadius: "20",
               boxShadow:
                 theme.palette.mode === "light"
                   ? "0px 0px 100000px rgba(0, 0, 0, 0.1)"
                   : "0px 0px 100000px rgba(255, 255, 255, 0.1)",
-              "@media (max-width: 600px)": { height: "auto" },
+              "@media (max-width: 600px)": { height: "auto", width: "100%" },
             }}
           >
             <CardMedia
