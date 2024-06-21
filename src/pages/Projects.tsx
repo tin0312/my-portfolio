@@ -28,7 +28,7 @@ export default function Projects() {
         },
       }}
     >
-      <Typography variant="h2" sx={{ marginTop: 15, marginBottom: 7}}>
+      <Typography variant="h2" sx={{ marginTop: 15, marginBottom: 7, textShadow:theme.palette.mode === "light" ? "0px 2px 4px rgba(0, 0, 0, 0.3)" : "0px 4px 6px rgba(255, 255, 255, 0.3)"}}>
         Projects
       </Typography>
       <Box
@@ -38,7 +38,7 @@ export default function Projects() {
           width: "80%",
           flexWrap: "wrap",
           "@media (max-width: 600px)": {
-            width: "90vw",
+            width: "95%",
             flexDirection: "column",
             alignItems: "center",
             gap: "4rem",
