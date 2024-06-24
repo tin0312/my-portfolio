@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import AnimatedForm from "../component/AnimatedForm";
 import { useTheme } from '@mui/material/styles';
+import { Fade, Zoom } from "react-awesome-reveal";
 
 export default function Contact() {
   const theme = useTheme();
@@ -40,13 +41,17 @@ export default function Contact() {
             marginBottom: 6
         },}}>
             <Typography variant="h2" sx={{ marginTop: 15, marginBottom: 7, textShadow:theme.palette.mode === "light" ? "0px 2px 4px rgba(0, 0, 0, 0.3)" : "0px 4px 6px rgba(255, 255, 255, 0.3)" }}>
-              Say hi
+                <Fade cascade damping={0.1}>
+                    Say hi
+                </Fade>
             </Typography>
             <Typography variant="body1">
              Have a project in mind? Send me a message and let's hear them out!  I'm always excited to collaborate and help you bring your ideas to life.
             </Typography>
           </Box>
-          <AnimatedForm />
+          <Zoom style={{width: "100%"}}>
+              <AnimatedForm />
+          </Zoom>
         </Box>
       </Box>
     </>

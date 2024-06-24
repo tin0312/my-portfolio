@@ -1,10 +1,9 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 
 export default function Footer() {
-  const [currentYear] = useState(new Date().getFullYear());
+  const currentYear = new Date().getFullYear();
   const theme = useTheme();
 
   return (

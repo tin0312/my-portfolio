@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import projectData, { Project } from "../data/projectData";
 import { useTheme } from "@mui/material/styles";
-
+import {Fade, Roll } from "react-awesome-reveal"
 export default function Projects() {
   const theme = useTheme();
 
@@ -29,7 +29,9 @@ export default function Projects() {
       }}
     >
       <Typography variant="h2" sx={{ marginTop: 15, marginBottom: 7, textShadow:theme.palette.mode === "light" ? "0px 2px 4px rgba(0, 0, 0, 0.3)" : "0px 4px 6px rgba(255, 255, 255, 0.3)"}}>
-        Projects
+      <Fade cascade damping={0.1}>
+        projects
+      </Fade>
       </Typography>
       <Box
         sx={{
@@ -46,6 +48,7 @@ export default function Projects() {
         }}
       >
         {projectData.map((project: Project, index: number) => (
+          <Roll>
           <Card
             key={index}
             sx={{
@@ -97,6 +100,7 @@ export default function Projects() {
               ))}
             </Box>
           </Card>
+          </Roll>
         ))}
       </Box>
     </Box>
