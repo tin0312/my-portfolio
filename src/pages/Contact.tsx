@@ -12,9 +12,13 @@ export default function Contact() {
         className="contact-wrapper"
         id="contact"
         sx={{
-          height: "100vh",
+          minHeight: "100vh",
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
+          "@media (max-width: 600px)": {
+            alignItems: "flex-start"
+          }
         }}
       >
         <Box
@@ -27,11 +31,13 @@ export default function Contact() {
               flexDirection: "column",
               justifyContent:"space-around",
               width: "95%",
+  
             },
           }}
         >
           <Box sx={{width: "600px",  "@media (max-width: 600px)": {
-            width: "100%"
+            width: "100%",
+            marginBottom: 6
         },}}>
             <Typography variant="h2" sx={{ marginTop: 15, marginBottom: 7, textShadow:theme.palette.mode === "light" ? "0px 2px 4px rgba(0, 0, 0, 0.3)" : "0px 4px 6px rgba(255, 255, 255, 0.3)" }}>
               Say hi
