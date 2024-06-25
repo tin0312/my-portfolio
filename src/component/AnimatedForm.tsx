@@ -2,6 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
+import axios from "axios";
 
 const AnimatedContainer = styled(Box)(({ theme }) => ({
   width: "600px",
@@ -36,18 +37,21 @@ const AnimatedForm = () => {
   const {
     control,
     formState: { errors },
+    handleSubmit,
   } = useForm();
   const theme = useTheme();
 
-  //   const onSubmit = (data) => {
-  //     console.log(data);
-  //   };
+  const onSubmit = async (data) => {
+    try{
+       const response = await axios.post("/.netlify/function/contact", data); 
+       console.log(response.data)
+    } catch(error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <AnimatedContainer
-      component="form"
-      //   onSubmit={handleSubmit(onSubmit)}
-    >
+    <AnimatedContainer component="form" onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h6" component="h1" gutterBottom>
         Contact me
       </Typography>
@@ -62,7 +66,7 @@ const AnimatedForm = () => {
             label="Email"
             variant="outlined"
             error={!!errors.email}
-            // helperText={errors.email ? errors.email.message : ''}
+            helperText={errors.email ? errors.email.message : ""}
             fullWidth
             required
             InputProps={{
@@ -111,7 +115,7 @@ const AnimatedForm = () => {
             multiline
             rows={4}
             error={!!errors.textarea}
-            // helperText={errors.textarea ? errors.textarea.message : ''}
+            helperText={errors.textarea ? errors.textarea.message : ""}
             fullWidth
             required
             InputProps={{
