@@ -33,19 +33,26 @@ const AnimatedContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
+interface FormData {
+  email: string;
+  textarea: string
+}
+
 const AnimatedForm = () => {
   const {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+    reset
+  } = useForm<FormData>();
   const theme = useTheme();
 
-  const onSubmit = async (data) => {
-    try{
-       const response = await axios.post("/.netlify/function/contact", data); 
-       console.log(response.data)
-    } catch(error) {
+  const onSubmit = async (data: FormData) => {
+    try {
+      const response = await axios.post("/.netlify/functions/contact", data);
+      console.log(response.data);
+      reset();
+    } catch (error) {
       console.log(error);
     }
   };
