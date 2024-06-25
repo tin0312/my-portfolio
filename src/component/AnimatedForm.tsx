@@ -1,41 +1,42 @@
-import { useForm, Controller } from "react-hook-form";
-import { TextField, Button, Box, Typography } from "@mui/material";
-import { styled } from "@mui/system";
-import { useTheme } from "@mui/material/styles";
-import axios from "axios";
+import { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { TextField, Button, Box, CircularProgress, Alert, Typography } from '@mui/material';
+import { styled } from '@mui/system';
+import { useTheme } from '@mui/material/styles';
+import axios from 'axios';
 
 const AnimatedContainer = styled(Box)(({ theme }) => ({
-  width: "600px",
-  "@media (max-width: 600px)": {
-    width: "100%",
-    height: "400px",
+  width: '600px',
+  '@media (max-width: 600px)': {
+    width: '100%',
+    height: '400px',
   },
   background:
-    theme.palette.mode === "light"
-      ? "linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)) padding-box, linear-gradient(145deg, transparent 35%, #e0761f, #1F89E0) border-box"
-      : "linear-gradient(#212121, #212121) padding-box, linear-gradient(145deg, transparent 35%, #e0761f, #1F89E0) border-box",
-  border: "2px solid transparent",
-  padding: "32px 24px",
-  fontSize: "14px",
-  fontFamily: "inherit",
-  color: theme.palette.mode === "light" ? "#000" : "#fff",
-  display: "flex",
-  flexDirection: "column",
-  gap: "20px",
-  boxSizing: "border-box",
-  borderRadius: "16px",
-  backgroundSize: "200% 100%",
-  animation: "gradient 5s ease infinite",
-  "@keyframes gradient": {
-    "0%": { backgroundPosition: "0% 50%" },
-    "50%": { backgroundPosition: "100% 50%" },
-    "100%": { backgroundPosition: "0% 50%" },
+    theme.palette.mode === 'light'
+      ? 'linear-gradient(rgba(240, 240, 240, 0.1), rgba(240, 240, 240, 0.1)) padding-box, linear-gradient(145deg, transparent 35%, #e0761f, #1F89E0) border-box'
+      : 'linear-gradient(#212121, #212121) padding-box, linear-gradient(145deg, transparent 35%, #e0761f, #1F89E0) border-box',
+  border: '2px solid transparent',
+  padding: '32px 24px',
+  fontSize: '14px',
+  fontFamily: 'inherit',
+  color: theme.palette.mode === 'light' ? '#000' : '#fff',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '20px',
+  boxSizing: 'border-box',
+  borderRadius: '16px',
+  backgroundSize: '200% 100%',
+  animation: 'gradient 5s ease infinite',
+  '@keyframes gradient': {
+    '0%': { backgroundPosition: '0% 50%' },
+    '50%': { backgroundPosition: '100% 50%' },
+    '100%': { backgroundPosition: '0% 50%' },
   },
 }));
 
 interface FormData {
   email: string;
-  textarea: string
+  textarea: string;
 }
 
 const AnimatedForm = () => {
@@ -46,14 +47,24 @@ const AnimatedForm = () => {
     reset
   } = useForm<FormData>();
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   const onSubmit = async (data: FormData) => {
+    setLoading(true);
+    setError('');
     try {
-      const response = await axios.post("/.netlify/functions/contact", data);
+      const response = await axios.post('/.netlify/functions/contact', data);
       console.log(response.data);
+      setLoading(false);
+      setSuccess(true);
       reset();
-    } catch (error) {
-      console.log(error);
+      setTimeout(() => setSuccess(false), 2000);
+    } catch (err) {
+      console.log(err);
+      setError('There was an error submitting the form. Please try again.');
+      setLoading(false);
     }
   };
 
@@ -62,47 +73,65 @@ const AnimatedForm = () => {
       <Typography variant="h6" component="h1" gutterBottom>
         Contact me
       </Typography>
+      {success && (
+        <Alert
+          severity="success"
+          onClose={() => setSuccess(false)}
+          sx={{ width: '100%' }}
+        >
+          Form submitted successfully!
+        </Alert>
+      )}
+      {error && (
+        <Alert
+          severity="error"
+          onClose={() => setError('')}
+          sx={{ width: '100%' }}
+        >
+          {error}
+        </Alert>
+      )}
       <Controller
         name="email"
         control={control}
         defaultValue=""
-        rules={{ required: "Email is required" }}
+        rules={{ required: 'Email is required' }}
         render={({ field }) => (
           <TextField
             {...field}
             label="Email"
             variant="outlined"
             error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ""}
+            helperText={errors.email ? errors.email.message : ''}
             fullWidth
             required
             InputProps={{
               style: {
-                color: theme.palette.mode === "light" ? "#000" : "#fff",
-                backgroundColor: "transparent",
-                borderRadius: "8px",
+                color: theme.palette.mode === 'light' ? '#000' : '#fff',
+                backgroundColor: 'transparent',
+                borderRadius: '8px',
                 borderColor:
-                  theme.palette.mode === "light" ? "#cccccc" : "#414141",
+                  theme.palette.mode === 'light' ? '#cccccc' : '#414141',
               },
             }}
             InputLabelProps={{
               style: {
-                color: theme.palette.mode === "light" ? "#717171" : "#cccccc",
+                color: theme.palette.mode === 'light' ? '#717171' : '#cccccc',
               },
             }}
             sx={{
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
                   borderColor:
-                    theme.palette.mode === "light" ? "#cccccc" : "#414141",
+                    theme.palette.mode === 'light' ? '#cccccc' : '#414141',
                 },
-                "&:hover fieldset": {
+                '&:hover fieldset': {
                   borderColor:
-                    theme.palette.mode === "light" ? "#000" : "#e81cff",
+                    theme.palette.mode === 'light' ? '#000' : '#e81cff',
                 },
-                "&.Mui-focused fieldset": {
+                '&.Mui-focused fieldset': {
                   borderColor:
-                    theme.palette.mode === "light" ? "#000" : "#e81cff",
+                    theme.palette.mode === 'light' ? '#000' : '#e81cff',
                 },
               },
             }}
@@ -113,7 +142,7 @@ const AnimatedForm = () => {
         name="textarea"
         control={control}
         defaultValue=""
-        rules={{ required: "This field is required" }}
+        rules={{ required: 'This field is required' }}
         render={({ field }) => (
           <TextField
             {...field}
@@ -122,79 +151,83 @@ const AnimatedForm = () => {
             multiline
             rows={4}
             error={!!errors.textarea}
-            helperText={errors.textarea ? errors.textarea.message : ""}
+            helperText={errors.textarea ? errors.textarea.message : ''}
             fullWidth
             required
             InputProps={{
               style: {
-                color: theme.palette.mode === "light" ? "#000" : "#fff",
-                backgroundColor: "transparent",
-                borderRadius: "8px",
+                color: theme.palette.mode === 'light' ? '#000' : '#fff',
+                backgroundColor: 'transparent',
+                borderRadius: '8px',
                 borderColor:
-                  theme.palette.mode === "light" ? "#cccccc" : "#414141",
+                  theme.palette.mode === 'light' ? '#cccccc' : '#414141',
               },
             }}
             InputLabelProps={{
               style: {
-                color: theme.palette.mode === "light" ? "#717171" : "#cccccc",
+                color: theme.palette.mode === 'light' ? '#717171' : '#cccccc',
               },
             }}
             sx={{
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
                   borderColor:
-                    theme.palette.mode === "light" ? "#cccccc" : "#414141",
+                    theme.palette.mode === 'light' ? '#cccccc' : '#414141',
                 },
-                "&:hover fieldset": {
+                '&:hover fieldset': {
                   borderColor:
-                    theme.palette.mode === "light" ? "#000" : "#e81cff",
+                    theme.palette.mode === 'light' ? '#000' : '#e81cff',
                 },
-                "&.Mui-focused fieldset": {
+                '&.Mui-focused fieldset': {
                   borderColor:
-                    theme.palette.mode === "light" ? "#000" : "#e81cff",
+                    theme.palette.mode === 'light' ? '#000' : '#e81cff',
                 },
               },
             }}
           />
         )}
       />
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        sx={{
-          alignSelf: "flex-start",
-          fontFamily: "inherit",
-          color: theme.palette.mode === "light" ? "#000" : "#717171",
-          fontWeight: 600,
-          background:
-            theme.palette.mode === "light"
-              ? "rgba(240, 240, 240, 0.8)"
-              : "#313131",
-          border: `1px solid ${
-            theme.palette.mode === "light" ? "#cccccc" : "#414141"
-          }`,
-          padding: "12px 16px",
-          fontSize: "inherit",
-          gap: "8px",
-          marginTop: "8px",
-          cursor: "pointer",
-          borderRadius: "6px",
-          "&:hover": {
-            backgroundColor:
-              theme.palette.mode === "light" ? "#e0e0e0" : "#fff",
-            borderColor: theme.palette.mode === "light" ? "#000" : "#fff",
-            color: theme.palette.mode === "light" ? "#000" : "#000",
-          },
-          "&:active": {
-            transform: "scale(0.95)",
-          },
-        }}
-      >
-        Submit
-      </Button>
+      <Box position="relative">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={loading}
+          sx={{
+            alignSelf: 'flex-start',
+            fontFamily: 'inherit',
+            color: theme.palette.mode === 'light' ? '#000' : '#717171',
+            fontWeight: 600,
+            background:
+              theme.palette.mode === 'light'
+                ? 'rgba(240, 240, 240, 0.8)'
+                : '#313131',
+            border: `1px solid ${
+              theme.palette.mode === 'light' ? '#cccccc' : '#414141'
+            }`,
+            padding: '12px 16px',
+            fontSize: 'inherit',
+            gap: '8px',
+            marginTop: '8px',
+            cursor: 'pointer',
+            borderRadius: '6px',
+            '&:hover': {
+              backgroundColor:
+                theme.palette.mode === 'light' ? '#e0e0e0' : '#fff',
+              borderColor: theme.palette.mode === 'light' ? '#000' : '#fff',
+              color: theme.palette.mode === 'light' ? '#000' : '#000',
+            },
+            '&:active': {
+              transform: 'scale(0.95)',
+            },
+          }}
+        >
+          {loading ? <CircularProgress size={24} /> : 'Submit'}
+        </Button>
+      </Box>
     </AnimatedContainer>
   );
 };
 
 export default AnimatedForm;
+
