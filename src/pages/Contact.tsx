@@ -43,7 +43,7 @@ export default function Contact() {
             setSuccess(false);
           }}
         >
-          <Alert severity="success" sx={{ width: "100%", textAlign: "center", "@media (max-width: 600px)": {width: "auto", textAlign: "center"} }}>
+          <Alert severity="success" sx={{ width: "100%", top: 0, "@media (max-width: 600px)": {width: "auto", px: "8px"}}}>
             Form submitted successfully!
           </Alert>
         </Snackbar>
@@ -52,7 +52,7 @@ export default function Contact() {
             width: "80%",
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center", //
+            alignItems: "center",
             "@media (max-width: 600px)": {
               alignItems: "center",
               flexDirection: "column",
