@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import ExpandIcon from "../component/ExpandIcon";
+import SocialIcons from "../component/SocialIcons";
 
 interface TextType {
   elem: HTMLElement;
@@ -105,6 +106,7 @@ const About: React.FC = () => {
     <Box
       id="about"
       sx={{
+        position: "relative",
         height: "100vh",
         display: "flex",
         flexDirection: "column",
@@ -112,6 +114,9 @@ const About: React.FC = () => {
         justifyContent: "center",
       }}
     >
+    {/* <Box sx={{position: "absolute, right:"}}>
+        <SocialIcons/>
+    </Box> */}
       <Typography
         sx={{
           opacity: 0.05,
@@ -178,8 +183,11 @@ const About: React.FC = () => {
         <Box
           component="span"
           className="wrap"
-          sx={{ color: theme.palette.mode === "dark" ? "#FFF" : "#D07225" }}
+          sx={{ color: theme.palette.mode === "dark" ? "#FFF" : "#D07225"}}
         ></Box>
+      </Box>
+      <Box sx={{marginTop: 8}}>
+          <SocialIcons /> 
       </Box>
       <ExpandIcon />
     </Box>
