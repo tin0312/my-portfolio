@@ -1,11 +1,24 @@
+import { useState } from "react";
 import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
+import { styled } from '@mui/system';
+import { Typography, Snackbar, Alert } from "@mui/material";
 import AnimatedForm from "../component/AnimatedForm";
 import { useTheme } from "@mui/material/styles";
 import { Fade, Zoom } from "react-awesome-reveal";
 
+const StyledZoom = styled(Zoom)`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  @media (max-width: 600px) {
+    display: block;
+  }
+`;
 export default function Contact() {
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   return (
     <>
@@ -22,6 +35,18 @@ export default function Contact() {
           },
         }}
       >
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={success}
+          autoHideDuration={2000}
+          onClose={() => {
+            setSuccess(false);
+          }}
+        >
+          <Alert severity="success" sx={{ width: "100%", textAlign: "center", "@media (max-width: 600px)": {width: "auto", textAlign: "center"} }}>
+            Form submitted successfully!
+          </Alert>
+        </Snackbar>
         <Box
           sx={{
             width: "80%",
@@ -71,15 +96,13 @@ export default function Contact() {
               life.
             </Typography>
           </Box>
-          <Zoom
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            <AnimatedForm />
-          </Zoom>
+          <StyledZoom>
+            <AnimatedForm
+              setSuccess={setSuccess}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          </StyledZoom>
         </Box>
       </Box>
     </>

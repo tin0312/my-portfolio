@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, Box, CircularProgress, Alert, Typography } from '@mui/material';
+import { TextField, Button, Box, CircularProgress, Typography} from '@mui/material';
 import { styled } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
@@ -38,161 +37,142 @@ interface FormData {
   email: string;
   textarea: string;
 }
+interface FormStates {
+  loading: boolean;
+  setSuccess: (success: boolean) => void;
+  setLoading: (loading: boolean) => void;
+}
 
-const AnimatedForm = () => {
+const AnimatedForm = ({setSuccess, loading, setLoading} : FormStates) => {
   const {
     control,
     formState: { errors },
     handleSubmit,
     reset
   } = useForm<FormData>();
-  const theme = useTheme();
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const theme = useTheme();;
 
   const onSubmit = async (data: FormData) => {
-    setLoading(true);
-    setError('');
+    setLoading(true); 
     try {
       const response = await axios.post('/.netlify/functions/contact', data);
       console.log(response.data);
-      setLoading(false);
-      setSuccess(true);
+      setLoading(false); 
+      setSuccess(true); 
       reset();
-      setTimeout(() => setSuccess(false), 2000);
     } catch (err) {
       console.log(err);
-      setError('There was an error submitting the form. Please try again.');
-      setLoading(false);
+      setLoading(false); // Set loading to false if there's an error
     }
   };
 
   return (
-    <AnimatedContainer component="form" onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h6" component="h1" gutterBottom>
-        Contact me
-      </Typography>
-      {success && (
-        <Alert
-          severity="success"
-          onClose={() => setSuccess(false)}
-          sx={{ width: '100%' }}
-        >
-          Form submitted successfully!
-        </Alert>
-      )}
-      {error && (
-        <Alert
-          severity="error"
-          onClose={() => setError('')}
-          sx={{ width: '100%' }}
-        >
-          {error}
-        </Alert>
-      )}
-      <Controller
-        name="email"
-        control={control}
-        defaultValue=""
-        rules={{ required: 'Email is required' }}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Email"
-            variant="outlined"
-            error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ''}
-            fullWidth
-            required
-            InputProps={{
-              style: {
-                color: theme.palette.mode === 'light' ? '#000' : '#fff',
-                backgroundColor: 'transparent',
-                borderRadius: '8px',
-                borderColor:
-                  theme.palette.mode === 'light' ? '#cccccc' : '#414141',
-              },
-            }}
-            InputLabelProps={{
-              style: {
-                color: theme.palette.mode === 'light' ? '#717171' : '#cccccc',
-              },
-            }}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
+    <Box position="relative">
+      <AnimatedContainer component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Typography variant="h6" component="h1" gutterBottom>
+          Contact me
+        </Typography>
+        <Controller
+          name="email"
+          control={control}
+          defaultValue=""
+          rules={{ required: 'Email is required' }}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Email"
+              variant="outlined"
+              error={!!errors.email}
+              helperText={errors.email ? errors.email.message : ''}
+              fullWidth
+              required
+              InputProps={{
+                style: {
+                  color: theme.palette.mode === 'light' ? '#000' : '#fff',
+                  backgroundColor: 'transparent',
+                  borderRadius: '8px',
                   borderColor:
                     theme.palette.mode === 'light' ? '#cccccc' : '#414141',
                 },
-                '&:hover fieldset': {
-                  borderColor:
-                    theme.palette.mode === 'light' ? '#000' : '#e81cff',
+              }}
+              InputLabelProps={{
+                style: {
+                  color: theme.palette.mode === 'light' ? '#717171' : '#cccccc',
                 },
-                '&.Mui-focused fieldset': {
-                  borderColor:
-                    theme.palette.mode === 'light' ? '#000' : '#e81cff',
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor:
+                      theme.palette.mode === 'light' ? '#cccccc' : '#414141',
+                  },
+                  '&:hover fieldset': {
+                    borderColor:
+                      theme.palette.mode === 'light' ? '#000' : '#e81cff',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor:
+                      theme.palette.mode === 'light' ? '#000' : '#e81cff',
+                  },
                 },
-              },
-            }}
-          />
-        )}
-      />
-      <Controller
-        name="textarea"
-        control={control}
-        defaultValue=""
-        rules={{ required: 'This field is required' }}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="How Can I Help You?"
-            variant="outlined"
-            multiline
-            rows={4}
-            error={!!errors.textarea}
-            helperText={errors.textarea ? errors.textarea.message : ''}
-            fullWidth
-            required
-            InputProps={{
-              style: {
-                color: theme.palette.mode === 'light' ? '#000' : '#fff',
-                backgroundColor: 'transparent',
-                borderRadius: '8px',
-                borderColor:
-                  theme.palette.mode === 'light' ? '#cccccc' : '#414141',
-              },
-            }}
-            InputLabelProps={{
-              style: {
-                color: theme.palette.mode === 'light' ? '#717171' : '#cccccc',
-              },
-            }}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
+              }}
+            />
+          )}
+        />
+        <Controller
+          name="textarea"
+          control={control}
+          defaultValue=""
+          rules={{ required: 'This field is required' }}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="How Can I Help You?"
+              variant="outlined"
+              multiline
+              rows={4}
+              error={!!errors.textarea}
+              helperText={errors.textarea ? errors.textarea.message : ''}
+              fullWidth
+              required
+              InputProps={{
+                style: {
+                  color: theme.palette.mode === 'light' ? '#000' : '#fff',
+                  backgroundColor: 'transparent',
+                  borderRadius: '8px',
                   borderColor:
                     theme.palette.mode === 'light' ? '#cccccc' : '#414141',
                 },
-                '&:hover fieldset': {
-                  borderColor:
-                    theme.palette.mode === 'light' ? '#000' : '#e81cff',
+              }}
+              InputLabelProps={{
+                style: {
+                  color: theme.palette.mode === 'light' ? '#717171' : '#cccccc',
                 },
-                '&.Mui-focused fieldset': {
-                  borderColor:
-                    theme.palette.mode === 'light' ? '#000' : '#e81cff',
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor:
+                      theme.palette.mode === 'light' ? '#cccccc' : '#414141',
+                  },
+                  '&:hover fieldset': {
+                    borderColor:
+                      theme.palette.mode === 'light' ? '#000' : '#e81cff',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor:
+                      theme.palette.mode === 'light' ? '#000' : '#e81cff',
+                  },
                 },
-              },
-            }}
-          />
-        )}
-      />
-      <Box position="relative">
+              }}
+            />
+          )}
+        />
         <Button
           type="submit"
           variant="contained"
           color="primary"
-          disabled={loading}
+          disabled={loading} // Disable the button when loading is true
           sx={{
             alignSelf: 'flex-start',
             fontFamily: 'inherit',
@@ -224,10 +204,9 @@ const AnimatedForm = () => {
         >
           {loading ? <CircularProgress size={24} /> : 'Submit'}
         </Button>
-      </Box>
-    </AnimatedContainer>
+      </AnimatedContainer>
+    </Box>
   );
 };
 
 export default AnimatedForm;
-
