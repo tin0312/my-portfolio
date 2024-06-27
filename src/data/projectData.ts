@@ -2,7 +2,7 @@ export interface Project {
   name: string;
   description: string;
   techStacks: string[];
-  img?: string;
+  video?: string;
   liveLink: string;
   githubLink: string;
 }
@@ -18,7 +18,7 @@ const projectData: Project[] = [
       "./assets/images/techIcons/Express.png",
       "./assets/images/techIcons/Firestore.png",
     ],
-    img: "./assets/images/projectThumbs/Poker-Booking.png",
+    video: "./assets/videos/poker-club.mp4",
     liveLink: "https://omegapoker.ca",
     githubLink: "https://github.com/tin0312/pocker-club",
   },
@@ -31,7 +31,7 @@ const projectData: Project[] = [
       "./assets/images/techIcons/React.png",
       "./assets/images/techIcons/Firestore.png",
     ],
-    img: "./assets/images/projectThumbs/Poker-Admin.png",
+    video: "./assets/videos/poker-admin.mp4",
     liveLink: "https://omega-poker-admin.netlify.app/",
     githubLink: "https://github.com/tin0312/omega-poker-admin",
   },
@@ -44,7 +44,7 @@ const projectData: Project[] = [
       "./assets/images/techIcons/NextJS.png",
       "./assets/images/techIcons/Firestore.png",
     ],
-    img: "./assets/images/projectThumbs/E-Commerce.png",
+    video: "./assets/videos/e-commerce.mp4",
     liveLink: "https://audiophilecommerce.netlify.app/",
     githubLink: "https://github.com/tin0312/audiophile-ecommerce",
   },
@@ -57,7 +57,7 @@ const projectData: Project[] = [
       "./assets/images/techIcons/Tailwind.png",
       "./assets/images/techIcons/Sass.png",
     ],
-    img: "./assets/images/projectThumbs/URL-Shortener.png",
+    video: "./assets/videos/url-shortener.mp4",
     liveLink: "https://yourshorturls.netlify.app",
     githubLink: "https://github.com/tin0312/shortly-landing-page",
   },
@@ -71,7 +71,7 @@ const projectData: Project[] = [
       "./assets/images/techIcons/Tailwind.png",
       "./assets/images/techIcons/Sass.png",
     ],
-    img: "./assets/images/projectThumbs/To-Do-App.png",
+    video: "./assets/videos/to-do-app.mp4",
     liveLink: "https://shouldo.netlify.app/",
     githubLink: "https://github.com/tin0312/to-do-app",
   },

@@ -114,9 +114,6 @@ const About: React.FC = () => {
         justifyContent: "center",
       }}
     >
-    {/* <Box sx={{position: "absolute, right:"}}>
-        <SocialIcons/>
-    </Box> */}
       <Typography
         sx={{
           opacity: 0.05,
@@ -186,7 +183,7 @@ const About: React.FC = () => {
           sx={{ color: theme.palette.mode === "dark" ? "#FFF" : "#D07225"}}
         ></Box>
       </Box>
-      <Box sx={{marginTop: 8}}>
+      <Box sx={{paddingTop: 5}}>
           <SocialIcons /> 
       </Box>
       <ExpandIcon />

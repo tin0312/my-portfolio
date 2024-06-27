@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import projectData, { Project } from "../data/projectData";
@@ -53,7 +52,7 @@ export default function Projects() {
             key={index}
             sx={{
               width: 345,
-              height: 375,
+              height: 390,
               borderRadius: "20",
               boxShadow:
                 theme.palette.mode === "light"
@@ -62,15 +61,24 @@ export default function Projects() {
               "@media (max-width: 600px)": { height: "auto", width: "100%" },
             }}
           >
-            <CardMedia
-              component="img"
-              alt={project.name}
-              height="140"
-              image={project.img}
-              sx={{
-                boxShadow: '0 0px 7px rgba(0, 0, 0, 0.3)',
-              }}
-            />
+     <Box
+        sx={{
+          height: "140px",
+          width: '100%',
+          boxShadow: '0 0px 7px rgba(0, 0, 0, 0.3)',
+          overflow: 'hidden'
+        }}
+      >
+        <video
+          autoPlay
+          loop
+          muted
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
+        >
+          <source src={project.video} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </Box>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {project.name}
