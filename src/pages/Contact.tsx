@@ -72,6 +72,7 @@ export default function Contact() {
             </Typography>
           </Box>
           <Zoom
+            delay={500}
             style={{
               width: "100%",
               display: "flex",

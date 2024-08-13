@@ -14,6 +14,7 @@ import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import { useTheme } from "@mui/material/styles";
 import ModeToggle from "../component/ModeToggle";
+import Link from "@mui/material/Link";
 
 const drawerWidth = 240;
 type NavItem = "about" | "projects" | "contact";
@@ -104,18 +105,23 @@ const Header: React.FC<Props> = (props) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          boxShadow: theme.palette.mode === "light" ? "0px 2px 4px rgba(0, 0, 0, 0.1)" : "0px 4px 6px rgba(255, 255, 255, 0.1)"
+          boxShadow:
+            theme.palette.mode === "light"
+              ? "0px 2px 4px rgba(0, 0, 0, 0.1)"
+              : "0px 4px 6px rgba(255, 255, 255, 0.1)",
         }}
       >
-        <Box
-          component="img"
-          sx={{
-            height: 100,
-            width: 120,
-          }}
-          alt="logo"
-          src="./assets/images/myLogo.png"
-        />
+        <Link href="/about">
+          <Box
+            component="img"
+            sx={{
+              height: 100,
+              width: 120,
+            }}
+            alt="logo"
+            src="./assets/images/myLogo.png"
+          />
+        </Link>
         <IconButton onClick={handleDrawerToggle} sx={{ color: "#FFF" }}>
           <CloseIcon sx={{ fontSize: "2.8rem" }} />
         </IconButton>
@@ -192,17 +198,20 @@ const Header: React.FC<Props> = (props) => {
           >
             <MenuIcon sx={{ fontSize: "2.8rem" }} />
           </IconButton>
-          <Box
-            component="img"
-            sx={{
-              display: { xs: "none", lg: "block" },
-              height: 100,
-              width: 120,
-            }}
-            alt="logo"
-            src="./assets/images/myLogo.png"
-          />
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem"}}>
+          <Link href="/about">
+            <Box
+              component="img"
+              sx={{
+                display: { xs: "none", lg: "block" },
+                height: 100,
+                width: 120,
+              }}
+              alt="logo"
+              src="./assets/images/myLogo.png"
+            />
+          </Link>
+
+          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
             {navItems.map((item) => (
               <Button
                 key={item}
