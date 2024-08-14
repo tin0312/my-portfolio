@@ -4,6 +4,11 @@ import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 
+interface FormData {
+  email: string;
+  textarea: string;
+}
+
 const AnimatedContainer = styled(Box)(({ theme }) => ({
   width: "600px",
   "@media (max-width: 600px)": {
@@ -41,11 +46,11 @@ const AnimatedForm = () => {
   } = useForm();
   const theme = useTheme();
 
-  const onSubmit = async (data) => {
-    try{
-       const response = await axios.post("/.netlify/function/contact", data); 
-       console.log(response.data)
-    } catch(error) {
+  const onSubmit = async (data: FormData) => {
+    try {
+      const response = await axios.post("/.netlify/function/contact", data);
+      console.log(response.data);
+    } catch (error) {
       console.log(error);
     }
   };
@@ -66,7 +71,11 @@ const AnimatedForm = () => {
             label="Email"
             variant="outlined"
             error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ""}
+            helperText={
+              errors.email && typeof errors.email.message === "string"
+                ? errors.email.message
+                : ""
+            }
             fullWidth
             required
             InputProps={{
@@ -115,7 +124,11 @@ const AnimatedForm = () => {
             multiline
             rows={4}
             error={!!errors.textarea}
-            helperText={errors.textarea ? errors.textarea.message : ""}
+            helperText={
+              errors.textarea && typeof errors.textarea.message === "string"
+                ? errors.textarea.message
+                : ""
+            }
             fullWidth
             required
             InputProps={{
