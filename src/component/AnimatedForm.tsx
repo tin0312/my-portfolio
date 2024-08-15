@@ -43,7 +43,7 @@ const AnimatedForm = () => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<FormData>();
   const theme = useTheme();
 
   const onSubmit = async (data: FormData) => {
