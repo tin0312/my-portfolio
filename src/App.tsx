@@ -10,13 +10,13 @@ import Projects from "./pages/Projects";
 import "./App.css";
 import PreloadPage from "./component/PreloaderPage";
 import { keyframes } from "@mui/material/styles";
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Fade from '@mui/material/Fade';
-import Fab from '@mui/material/Fab';
+import useScrollTrigger from "@mui/material/useScrollTrigger";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Fade from "@mui/material/Fade";
+import Fab from "@mui/material/Fab";
 
 const fadeInAnimation = keyframes`
-         0% {
+  0% {
     opacity: 0.5;
   }
   50% {
@@ -39,7 +39,7 @@ const themeDark = createTheme({
 });
 
 export default function App() {
-  const [theme, setTheme] = useState(themeLight);
+  const [theme, setTheme] = useState(themeDark);
   const [loading, setLoading] = useState(true);
 
   const toggleTheme = () => {
@@ -52,7 +52,7 @@ export default function App() {
     const timer = setTimeout(() => setLoading(false), 1000);
     const storedTheme = localStorage.getItem("theme");
     setTheme(storedTheme === "dark" ? themeDark : themeLight);
-  
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -60,7 +60,7 @@ export default function App() {
     window?: () => Window;
     children: React.ReactElement;
   }
-  
+
   function ScrollTop(props: Props) {
     const { children, window } = props;
     const trigger = useScrollTrigger({
@@ -68,26 +68,26 @@ export default function App() {
       disableHysteresis: true,
       threshold: 100,
     });
-  
+
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
       const anchor = (
         (event.target as HTMLDivElement).ownerDocument || document
-      ).querySelector('#back-to-top-anchor');
-  
+      ).querySelector("#back-to-top-anchor");
+
       if (anchor) {
         anchor.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
+          behavior: "smooth",
+          block: "start",
         });
       }
     };
-  
+
     return (
       <Fade in={trigger}>
         <Box
           onClick={handleClick}
           role="presentation"
-          sx={{ position: 'fixed', bottom: 16, right: 16 }}
+          sx={{ position: "fixed", bottom: 16, right: 16 }}
         >
           {children}
         </Box>
@@ -98,8 +98,10 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {loading ?  <PreloadPage theme={theme}/> : 
-        (<Box
+      {loading ? (
+        <PreloadPage theme={theme} />
+      ) : (
+        <Box
           className="site-wrapper"
           sx={{
             display: "flex",
@@ -113,7 +115,7 @@ export default function App() {
             backgroundColor: theme.palette.background.default,
             transition:
               "background-color 0.5s ease-in-out, background-image 0.5s ease-in-out",
-            animation: loading ? "none" : `${fadeInAnimation} ease 1s forwards`, 
+            animation: loading ? "none" : `${fadeInAnimation} ease 1s forwards`,
           }}
         >
           <Box id="back-to-top-anchor" className="site-header">
@@ -127,8 +129,9 @@ export default function App() {
           <Box className="site-footer">
             <Footer />
           </Box>
-        </Box>)}
-        <ScrollTop>
+        </Box>
+      )}
+      <ScrollTop>
         <Fab size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />
         </Fab>
