@@ -39,7 +39,7 @@ const themeDark = createTheme({
 });
 
 export default function App() {
-  const [theme, setTheme] = useState(themeLight);
+  const [theme, setTheme] = useState(themeDark);
   const [loading, setLoading] = useState(true);
 
   const toggleTheme = () => {
@@ -50,6 +50,7 @@ export default function App() {
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1000);
+    localStorage.setItem("theme", theme === themeDark ? "dark" : "light");
     const storedTheme = localStorage.getItem("theme");
     setTheme(storedTheme === "dark" ? themeDark : themeLight);
   
