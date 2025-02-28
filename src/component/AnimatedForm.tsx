@@ -3,6 +3,7 @@ import { TextField, Button, Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
+import { useState } from "react";
 
 interface FormData {
   email: string;
@@ -39,6 +40,7 @@ const AnimatedContainer = styled(Box)(({ theme }) => ({
 }));
 
 const AnimatedForm = () => {
+  const [isSending, setIsSending] = useState<boolean>(false);
   const {
     control,
     formState: { errors },
@@ -47,9 +49,13 @@ const AnimatedForm = () => {
   const theme = useTheme();
 
   const onSubmit = async (data: FormData) => {
+    setIsSending(true)
     try {
-      const response = await axios.post("/.netlify/function/contact", data);
-      console.log(response.data);
+      const response = await axios.post("/api/contact", data);
+      console.log("Returned data :", response);
+      if(response.status === 200){
+        setIsSending(false)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -168,6 +174,7 @@ const AnimatedForm = () => {
         type="submit"
         variant="contained"
         color="primary"
+        disabled={isSending}
         sx={{
           alignSelf: "flex-start",
           fontFamily: "inherit",
@@ -197,7 +204,7 @@ const AnimatedForm = () => {
           },
         }}
       >
-        Submit
+        {isSending ? "Sending..." : "Submit"}
       </Button>
     </AnimatedContainer>
   );
