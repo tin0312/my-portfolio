@@ -15,6 +15,9 @@ import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import { useTheme } from "@mui/material/styles";
 import ModeToggle from "../component/ModeToggle";
 import Link from "@mui/material/Link";
+import Alert from "@mui/material/Alert";
+import CheckIcon from "@mui/icons-material/Check";
+import { useAppContext } from "../Auth/AppProvider";
 
 const drawerWidth = 240;
 type NavItem = "about" | "projects" | "contact";
@@ -31,6 +34,22 @@ const Header: React.FC<Props> = (props) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState<NavItem>("about");
   const theme = useTheme();
+  const { isSent } = useAppContext();
+  const [notification, setNotification] = React.useState<string>("");
+  const [isNotificaiton, setIsNotification] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (isSent) {
+      setIsNotification(true);
+      setNotification("Message Sent");
+      setTimeout(() => {
+        setIsNotification(false);
+        setNotification("");
+        }, 2000);
+    } else {
+      setIsNotification(false);
+    }
+  }, [isSent]);
 
   const handleClickRoute = (
     item: NavItem,
@@ -46,6 +65,7 @@ const Header: React.FC<Props> = (props) => {
     }
   };
 
+  // get icons
   const getIcon = (item: NavItem) => {
     switch (item) {
       case "about":
@@ -80,6 +100,7 @@ const Header: React.FC<Props> = (props) => {
     }
   };
 
+  // open mobile navigation
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -87,6 +108,7 @@ const Header: React.FC<Props> = (props) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  // start of mobile drawer
   const drawer = (
     <Box
       className="site-wrapper"
@@ -166,9 +188,9 @@ const Header: React.FC<Props> = (props) => {
       </Box>
     </Box>
   );
-
+  // end of mobile drawer
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", position: "relative" }}>
       <CssBaseline />
       <AppBar
         component="nav"
@@ -211,7 +233,13 @@ const Header: React.FC<Props> = (props) => {
             />
           </Link>
 
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              gap: "1rem",
+              postition: "relative",
+            }}
+          >
             {navItems.map((item) => (
               <Button
                 key={item}
@@ -245,7 +273,7 @@ const Header: React.FC<Props> = (props) => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <nav>
+      <nav className="">
         <Drawer
           container={container}
           variant="temporary"
@@ -259,12 +287,28 @@ const Header: React.FC<Props> = (props) => {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              zIndex: "1",
             },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
+      {/* a snack bar alert should be positioned absolute here */}
+      <Alert
+        sx={{
+          top: "4rem",
+          position: "fixed",
+          left: "50%",
+          transform: " translate(-50%, 0)",
+          zIndex: "1000",
+          display: isNotificaiton ? "flex" : "none",
+        }}
+        icon={<CheckIcon fontSize="inherit" />}
+        severity="success"
+      >
+        {notification}
+      </Alert>
     </Box>
   );
 };

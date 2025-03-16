@@ -4,12 +4,12 @@ import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import { useState } from "react";
+import { useAppContext } from "../Auth/AppProvider";
 
 interface FormData {
   email: string;
   textarea: string;
 }
-
 const AnimatedContainer = styled(Box)(({ theme }) => ({
   width: "600px",
   "@media (max-width: 600px)": {
@@ -41,6 +41,7 @@ const AnimatedContainer = styled(Box)(({ theme }) => ({
 
 const AnimatedForm = () => {
   const [isSending, setIsSending] = useState<boolean>(false);
+  const { setIsSent } = useAppContext()
   const {
     control,
     formState: { errors },
@@ -55,6 +56,7 @@ const AnimatedForm = () => {
       console.log("Returned data :", response);
       if(response.status === 200){
         setIsSending(false)
+        setIsSent(true)
       }
     } catch (error) {
       console.log(error);
@@ -62,6 +64,7 @@ const AnimatedForm = () => {
   };
 
   return (
+    <>
     <AnimatedContainer component="form" onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h6" component="h1" gutterBottom>
         Contact me
@@ -207,6 +210,8 @@ const AnimatedForm = () => {
         {isSending ? "Sending..." : "Submit"}
       </Button>
     </AnimatedContainer>
+    </>
+    
   );
 };
 
