@@ -46,6 +46,8 @@ const AnimatedForm = () => {
     control,
     formState: { errors },
     handleSubmit,
+    setValue,
+    register
   } = useForm<FormData>();
   const theme = useTheme();
 
@@ -53,10 +55,11 @@ const AnimatedForm = () => {
     setIsSending(true)
     try {
       const response = await axios.post("/api/contact", data);
-      console.log("Returned data :", response);
       if(response.status === 200){
         setIsSending(false)
         setIsSent(true)
+        setValue("email", "");
+        setValue("textarea", "")
       }
     } catch (error) {
       console.log(error);
@@ -76,6 +79,7 @@ const AnimatedForm = () => {
         rules={{ required: "Email is required" }}
         render={({ field }) => (
           <TextField
+            {...register("email")}
             {...field}
             label="Email"
             variant="outlined"
@@ -127,6 +131,7 @@ const AnimatedForm = () => {
         rules={{ required: "This field is required" }}
         render={({ field }) => (
           <TextField
+            {...register("textarea")}
             {...field}
             label="How Can I Help You?"
             variant="outlined"

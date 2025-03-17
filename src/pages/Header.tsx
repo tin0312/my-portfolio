@@ -35,13 +35,13 @@ const Header: React.FC<Props> = (props) => {
   const [activeItem, setActiveItem] = React.useState<NavItem>("about");
   const theme = useTheme();
   const { isSent } = useAppContext();
-  const [notification, setNotification] = React.useState<string>("");
+  const [notification, setNotification] = React.useState<string>("Message Sent");
   const [isNotificaiton, setIsNotification] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (isSent) {
       setIsNotification(true);
-      setNotification("Message Sent");
+      setNotification("Message sent");
       setTimeout(() => {
         setIsNotification(false);
         setNotification("");
