@@ -75,6 +75,20 @@ const projectData: Project[] = [
     liveLink: "https://shouldo.netlify.app/",
     githubLink: "https://github.com/tin0312/to-do-app",
   },
+  {
+    name: "Blogging Platform",
+    description:
+      "A blogging platform that implemented CRUD operations with authentication integrated",
+    techStacks: [
+      "./assets/images/techIcons/React.png",
+      "./assets/images/techIcons/Express.png",
+      "./assets/images/techIcons/Redis.png",
+      "./assets/images/techIcons/Bootstrap.png",
+    ],
+    img: "./assets/images/projectThumbs/Blogging-Platform.png",
+    liveLink: "https://blog-web-client-nppm.onrender.com/",
+    githubLink: "https://github.com/tin0312/blog-web",
+  },
 ];
 
 export default projectData;
