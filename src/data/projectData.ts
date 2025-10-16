@@ -50,7 +50,8 @@ const projectData: Project[] = [
   },
   {
     name: "URL Shortener",
-    description: "Shortening lengthy URLs with integration of the shrtlnk API and enabling users to copy up to 3 shortended URLs to use immediately",
+    description:
+      "Shortening lengthy URLs with integration of the shrtlnk API and enabling users to copy up to 3 shortended URLs to use immediately",
     techStacks: [
       "./assets/images/techIcons/React.png",
       "./assets/images/techIcons/TypeScript.png",
@@ -74,20 +75,6 @@ const projectData: Project[] = [
     img: "./assets/images/projectThumbs/To-Do-App.png",
     liveLink: "https://shouldo.netlify.app/",
     githubLink: "https://github.com/tin0312/to-do-app",
-  },
-  {
-    name: "Blogging Platform",
-    description:
-      "A blogging platform that implemented CRUD operations with authentication integrated",
-    techStacks: [
-      "./assets/images/techIcons/React.png",
-      "./assets/images/techIcons/Express.png",
-      "./assets/images/techIcons/Redis.png",
-      "./assets/images/techIcons/Bootstrap.png",
-    ],
-    img: "./assets/images/projectThumbs/Blogging-Platform.png",
-    liveLink: "https://blog-web-client-nppm.onrender.com/",
-    githubLink: "https://github.com/tin0312/blog-web",
   },
 ];
 
